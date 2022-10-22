@@ -4,6 +4,17 @@ function PizzaBlock({imageUrl, name, types, sizes, price, category, rating}) {
 
     const typesValue = ['тонкое', 'традиционное']
 
+    const [activeType, setActiveType] = React.useState(0)
+    const [activeSize, setActiveSize] = React.useState(0)
+
+    const onClickType = (typeId) => {
+        setActiveType(typeId)
+    }
+
+    const onClickSize = (sizeId) => {
+        setActiveSize(sizeId)
+    }
+
     return (
         <div className="pizza-block">
             <img
@@ -15,16 +26,22 @@ function PizzaBlock({imageUrl, name, types, sizes, price, category, rating}) {
             <div className="pizza-block__selector">
                 <ul>
                     {
-                        types.map(t => (
-                            <li>{typesValue[t]}</li>
+                        types.map(type => (
+                            <li className={type === activeType ? 'active' : ''}
+                            onClick={() => onClickType(type)}>
+                                {typesValue[type]}
+                            </li>
                         ))
                     }
 
                 </ul>
                 <ul>
                     {
-                        sizes.map(size => (
-                            <li>{size} см.</li>
+                        sizes.map((size, id) => (
+                            <li className={id === activeSize ? 'active' : ''}
+                                onClick={() => onClickSize(id)}>
+                                {size} см.
+                            </li>
                         ))
                     }
                 </ul>
