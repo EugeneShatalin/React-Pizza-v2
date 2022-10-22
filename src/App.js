@@ -7,7 +7,10 @@ import PizzaBlock from "./components/PizzaBlock";
 
 import './scss/app.scss'
 
+import pizzas from './assets/pizzas.json'
+
 function App() {
+    console.log(pizzas)
     return (
         <div className="wrapper">
             <Header/>
@@ -19,14 +22,20 @@ function App() {
                     </div>
                     <h2 className="content__title">Все пиццы</h2>
                     <div className="content__items">
-                        <PizzaBlock title='Чизбургер-пицца' price={350}/>
-                        <PizzaBlock title='Неаполитанская пицца' price={500}/>
-                        <PizzaBlock title='Кальцоне' price={300}/>
-                        <PizzaBlock title='Римская пицца' price={350}/>
-                        <PizzaBlock title='Жареная пицца' price={600}/>
-                        <PizzaBlock title='Сицилийская пицца' price={350}/>
-                        <PizzaBlock title='Жареная пицца' price={600}/>
-                        <PizzaBlock title='Сицилийская пицца' price={350}/>
+                        {
+                            pizzas.map(pizza => (
+                                <PizzaBlock
+                                    key = {pizza.id}
+                                    imageUrl = {pizza.imageUrl}
+                                    name = {pizza.name}
+                                    types = {pizza.types}
+                                    sizes = {pizza.sizes}
+                                    price = {pizza.price}
+                                    category = {pizza.category}
+                                    rating = {pizza.rating}
+                                />
+                            ))
+                        }
                     </div>
                 </div>
             </div>
