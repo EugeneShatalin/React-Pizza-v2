@@ -7,9 +7,18 @@ import PizzaBlock from "./components/PizzaBlock";
 
 import './scss/app.scss'
 
-import pizzas from './assets/pizzas.json'
 
 function App() {
+
+    let [pizzas, setPizzas] = React.useState([])
+
+    React.useEffect(() => {
+        fetch('https://react-pizza.free.beeceptor.com/items')
+            .then((res) => res.json())
+            .then((arr) => {
+                setPizzas(arr)
+            })
+    }, [])
 
     return (
         <div className="wrapper">
