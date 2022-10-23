@@ -16,6 +16,7 @@ function Index({imageUrl, name, types, sizes, price}) {
     }
 
     return (
+        <div className="pizza-block-wrapper">
         <div className="pizza-block">
             <img
                 className="pizza-block__image"
@@ -25,27 +26,19 @@ function Index({imageUrl, name, types, sizes, price}) {
             <h4 className="pizza-block__title">{name}</h4>
             <div className="pizza-block__selector">
                 <ul>
-                    {
-                        types.map(type => (
-                            <li key={type}
-                                className={type === activeType ? 'active' : ''}
-                                onClick={() => onClickType(type)}>
-                                {typesValue[type]}
-                            </li>
-                        ))
-                    }
+                    {types.map(type => (<li key={type}
+                                            className={type === activeType ? 'active' : ''}
+                                            onClick={() => onClickType(type)}>
+                        {typesValue[type]}
+                    </li>))}
 
                 </ul>
                 <ul>
-                    {
-                        sizes.map((size, id) => (
-                            <li key={size}
-                                className={id === activeSize ? 'active' : ''}
-                                onClick={() => onClickSize(id)}>
-                                {size} см.
-                            </li>
-                        ))
-                    }
+                    {sizes.map((size, id) => (<li key={size}
+                                                  className={id === activeSize ? 'active' : ''}
+                                                  onClick={() => onClickSize(id)}>
+                        {size} см.
+                    </li>))}
                 </ul>
             </div>
             <div className="pizza-block__bottom">
@@ -68,7 +61,7 @@ function Index({imageUrl, name, types, sizes, price}) {
                 </div>
             </div>
         </div>
-    )
+    </div>)
 }
 
 export default Index
