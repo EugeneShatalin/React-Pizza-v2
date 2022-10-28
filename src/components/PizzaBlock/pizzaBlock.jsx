@@ -1,6 +1,6 @@
 import React from "react";
 
-function Index({imageUrl, name, types, sizes, price}) {
+function PizzaBlock({imageUrl, name, types, sizes, price}) {
 
     const typesValue = ['тонкое', 'традиционное']
 
@@ -64,4 +64,4 @@ function Index({imageUrl, name, types, sizes, price}) {
     </div>)
 }
 
-export default Index
+export default PizzaBlock
