@@ -4,8 +4,11 @@ import Sort from "../components/Sort";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import PizzaBlock from "../components/PizzaBlock/pizzaBlock";
 import Pagination from "../components/Pagination";
+import {SearchContext} from "../App";
 
-const Home = ({searchValue}) => {
+const Home = () => {
+
+    const {searchValue} = React.useContext(SearchContext)
 
     const [items, setItems] = React.useState([])
     const [isLoading, setIsLoading] = React.useState(true)
@@ -27,7 +30,7 @@ const Home = ({searchValue}) => {
                 setIsLoading(false)
             })
         window.scrollTo(0, 0)
-    }, [categoryId, sortType, sortType, currentPage])
+    }, [categoryId, searchValue, sortType, currentPage])
 
     const pizzas = items.filter((item) => {
         if (item.name.toLowerCase().includes(searchValue.toLowerCase())) {
