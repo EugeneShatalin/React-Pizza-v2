@@ -8,6 +8,7 @@ import {SearchContext} from "../App";
 
 import {useDispatch, useSelector} from "react-redux";
 import {setCategoryId} from "../redux/slices/filterSlice";
+import axios from "axios";
 
 const Home = () => {
     const dispatch = useDispatch()
@@ -31,12 +32,12 @@ const Home = () => {
         const sortBy = sort.sortProperty.replace('-', '')
         const category = categoryId > 0 ? `category=${categoryId}` : ''
 
-        fetch(`https://63567f4da2d1844a97763927.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}`)
-            .then((res) => res.json())
-            .then((arr) => {
-                setItems(arr)
+        axios.get(`https://63567f4da2d1844a97763927.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}`)
+            .then((res) => {
+                setItems(res.data)
                 setIsLoading(false)
             })
+
         window.scrollTo(0, 0)
     }, [categoryId, searchValue, sort, currentPage])
 
