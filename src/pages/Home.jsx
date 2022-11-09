@@ -1,17 +1,21 @@
 import React from 'react';
 import Categories from "../components/Categories";
-import Sort from "../components/Sort";
+import Sort, {sortList} from "../components/Sort";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import PizzaBlock from "../components/PizzaBlock/pizzaBlock";
 import Pagination from "../components/Pagination";
 import {SearchContext} from "../App";
 
 import {useDispatch, useSelector} from "react-redux";
-import {setCategoryId, setPageCount} from "../redux/slices/filterSlice";
+import {setCategoryId, setFilters, setPageCount} from "../redux/slices/filterSlice";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import axios from "axios";
+import qs from "qs";
 
 const Home = () => {
+    const navigate = useNavigate()
     const dispatch = useDispatch()
+
     const {categoryId, sort, currentPage} = useSelector(state => state.filter)
 
     const {searchValue} = React.useContext(SearchContext)
@@ -23,6 +27,21 @@ const Home = () => {
     const onChangeCategory = (id) => {
         dispatch(setCategoryId(id))
     }
+
+
+    React.useEffect(() => {
+
+        if(window.location.hash) {
+            const params = qs.parse(window.location.hash.substring(3))
+
+            const sort = sortList.find((obj) => obj.sortProperty === params.sortProperty)
+
+            dispatch(setFilters({
+                ...params,
+                sort,
+            }))
+        }
+    }, [])
 
 
     React.useEffect(() => {
@@ -39,7 +58,19 @@ const Home = () => {
             })
 
         window.scrollTo(0, 0)
-    }, [categoryId, searchValue, sort, currentPage])
+    }, [categoryId, searchValue, sort.sortProperty, currentPage])
+
+    React.useEffect(() => {
+        const queryString = qs.stringify({
+            sortProperty: sort.sortProperty,
+            categoryId,
+            currentPage
+        })
+
+        navigate(`?${queryString}`)
+    }, [categoryId, sort.sortProperty, currentPage])
+
+
 
     const pizzas = items.filter((item) => {
         if (item.name.toLowerCase().includes(searchValue.toLowerCase())) {
