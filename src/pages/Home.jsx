@@ -48,8 +48,8 @@ const Home = () => {
 
     React.useEffect(() => {
 
-        if (window.location.hash) {
-            const params = qs.parse(window.location.hash.substring(3))
+        if (window.location.search) {
+            const params = qs.parse(window.location.search.substring(1))
 
             const sort = sortList.find((obj) => obj.sortProperty === params.sortProperty)
 
