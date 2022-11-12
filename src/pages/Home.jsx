@@ -8,13 +8,15 @@ import {SearchContext} from "../App";
 
 import {useDispatch, useSelector} from "react-redux";
 import {setCategoryId, setFilters, setPageCount} from "../redux/slices/filterSlice";
-import {useNavigate, useParams, useSearchParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import qs from "qs";
 
 const Home = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const isSearch = React.useRef(false)
+    const isMounted = React.useRef(false)
 
     const {categoryId, sort, currentPage} = useSelector(state => state.filter)
 
@@ -28,23 +30,7 @@ const Home = () => {
         dispatch(setCategoryId(id))
     }
 
-
-    React.useEffect(() => {
-
-        if(window.location.hash) {
-            const params = qs.parse(window.location.hash.substring(3))
-
-            const sort = sortList.find((obj) => obj.sortProperty === params.sortProperty)
-
-            dispatch(setFilters({
-                ...params,
-                sort,
-            }))
-        }
-    }, [])
-
-
-    React.useEffect(() => {
+    const fetchPizzas = () => {
         setIsLoading(true)
 
         const order = sort.sortProperty.includes('-') ? 'asc' : 'desc'
@@ -58,18 +44,46 @@ const Home = () => {
             })
 
         window.scrollTo(0, 0)
+    }
+
+    React.useEffect(() => {
+
+        if (window.location.hash) {
+            const params = qs.parse(window.location.hash.substring(3))
+
+            const sort = sortList.find((obj) => obj.sortProperty === params.sortProperty)
+
+            dispatch(setFilters({
+                ...params,
+                sort,
+            }))
+            isSearch.current = true
+        }
+    }, [])
+
+
+    React.useEffect(() => {
+        window.scrollTo(0, 0)
+
+        if (!isSearch.current) {
+            fetchPizzas();
+        }
+
+        isSearch.current = false
+
     }, [categoryId, searchValue, sort.sortProperty, currentPage])
 
     React.useEffect(() => {
-        const queryString = qs.stringify({
-            sortProperty: sort.sortProperty,
-            categoryId,
-            currentPage
-        })
-
-        navigate(`?${queryString}`)
+        if (isMounted.current) {
+            const queryString = qs.stringify({
+                sortProperty: sort.sortProperty,
+                categoryId,
+                currentPage
+            })
+            navigate(`?${queryString}`)
+        }
+        isMounted.current = true
     }, [categoryId, sort.sortProperty, currentPage])
-
 
 
     const pizzas = items.filter((item) => {
@@ -89,13 +103,13 @@ const Home = () => {
         <div className="container">
             <div className="content__top">
                 <Categories value={categoryId} onChangeCategory={onChangeCategory}/>
-                <Sort />
+                <Sort/>
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
                 {isLoading ? skeletons : pizzas}
             </div>
-            <Pagination currentPage={currentPage}  onChangePage={onChangePage}/>
+            <Pagination currentPage={currentPage} onChangePage={onChangePage}/>
         </div>
     );
 };

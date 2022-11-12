@@ -8,7 +8,7 @@ import {store} from "./redux/store";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <HashRouter>
+    <HashRouter basename="/">
         <Provider store={store}>
             <App/>
         </Provider>
