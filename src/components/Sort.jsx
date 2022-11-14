@@ -1,6 +1,7 @@
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {setSort} from "../redux/slices/filterSlice";
+import * as events from "events";
 
 export const sortList = [
     {name: 'популярности (по убыванию)', sortProperty: 'rating'},
@@ -24,11 +25,14 @@ function Sort() {
     }
 
     React.useEffect(() => {
-        document.body.addEventListener('click', event => {
+        const handleClickOutside = (event) => {
             if(!event.path.includes(sortRef.current)){
                 setOpen(false)
             }
-        })
+        }
+        document.body.addEventListener('click', handleClickOutside)
+
+        return () => document.body.removeEventListener('click', handleClickOutside)
     }, [])
 
     return (
