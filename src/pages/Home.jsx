@@ -40,7 +40,6 @@ const Home = () => {
         axios.get(`https://63567f4da2d1844a97763927.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}`)
             .then((res) => {
                 setItems(res.data)
-                console.log(res.data)
                 setIsLoading(false)
             })
 
