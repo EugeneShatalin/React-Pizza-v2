@@ -40,6 +40,7 @@ const Home = () => {
         axios.get(`https://63567f4da2d1844a97763927.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}`)
             .then((res) => {
                 setItems(res.data)
+                console.log(res.data)
                 setIsLoading(false)
             })
 
@@ -87,7 +88,7 @@ const Home = () => {
 
 
     const pizzas = items.filter((item) => {
-        if (item.name.toLowerCase().includes(searchValue.toLowerCase())) {
+        if (item.title.toLowerCase().includes(searchValue.toLowerCase())) {
             return true
         }
         return false
