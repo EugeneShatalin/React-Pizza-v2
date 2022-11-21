@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDispatch} from "react-redux";
-import {addItem, minusItem} from "../redux/slices/cartSlice";
+import {addItem, minusItem, removeItem} from "../redux/slices/cartSlice";
 
 const CartItem = ({id, title, type, size, price, count, imageUrl}) => {
     const dispatch = useDispatch();
@@ -15,6 +15,12 @@ const CartItem = ({id, title, type, size, price, count, imageUrl}) => {
         dispatch(
             minusItem(id)
         )
+    }
+
+    const onClickRemove = () => {
+        if(window.confirm("Вы уверены, что хотите удалить?")) {
+            dispatch(removeItem(id))
+        }
     }
 
     return (
@@ -61,7 +67,7 @@ const CartItem = ({id, title, type, size, price, count, imageUrl}) => {
                 <b>{price * count} ₽</b>
             </div>
             <div className="cart__item-remove">
-                <div className="button button--outline button--circle">
+                <div onClick={onClickRemove} className="button button--outline button--circle">
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <path
