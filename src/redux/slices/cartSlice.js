@@ -35,13 +35,27 @@ const cartSlice = createSlice({
 
             if (findItem) {
                 findItem.count--
+                state.totalPrice = state.items.reduce((sum, obj) => {
+                    return obj.price * obj.count + sum
+                }, 0)
+                state.totalPizzas = state.items.reduce((sum, obj) => {
+                    return obj.count + sum
+                }, 0)
             }
         },
         removeItem(state, action) {
             state.items = state.items.filter(obj => obj.id !== action.payload)
+            state.totalPrice = state.items.reduce((sum, obj) => {
+                return obj.price * obj.count + sum
+            }, 0)
+            state.totalPizzas = state.items.reduce((sum, obj) => {
+                return obj.count + sum
+            }, 0)
         },
         clearItem(state) {
             state.items = []
+            state.totalPrice = 0
+            state.totalPizzas = 0
         }
     }
 })
