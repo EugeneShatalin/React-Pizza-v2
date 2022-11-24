@@ -11,6 +11,7 @@ import {setCategoryId, setFilters, setPageCount} from "../redux/slices/filterSli
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import qs from "qs";
+import {setItems} from "../redux/slices/pizzaSlice";
 
 const Home = () => {
     const navigate = useNavigate()
@@ -18,11 +19,10 @@ const Home = () => {
     const isSearch = React.useRef(false)
     const isMounted = React.useRef(false)
 
+    const {items} = useSelector(state => state.pizza)
     const {categoryId, sort, currentPage} = useSelector(state => state.filter)
 
     const {searchValue} = React.useContext(SearchContext)
-
-    const [items, setItems] = React.useState([])
     const [isLoading, setIsLoading] = React.useState(true)
 
 
@@ -38,8 +38,8 @@ const Home = () => {
         const category = categoryId > 0 ? `category=${categoryId}` : ''
 
         try {
-            const res = await axios.get(`https://63567f4da2d1844a97763927.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}`)
-            setItems(res.data)
+            const {data} = await axios.get(`https://63567f4da2d1844a97763927.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}`)
+            dispatch(setItems(data))
             window.scrollTo(0, 0)
         } catch (e) {
             console.log("Error: ", e)
