@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import {useSelector} from "react-redux";
 
 import logoSvg from '../assets/img/pizza-logo.svg'
@@ -8,7 +8,7 @@ import {selectCart} from "../redux/slices/cartSlice";
 
 function Header() {
     const {totalPizzas, totalPrice} = useSelector(selectCart)
-
+    const location = useLocation()
     return (
         <div className="header">
             <div className="container">
@@ -23,7 +23,7 @@ function Header() {
                 </Link>
                 <Search/>
                 <div className="header__cart">
-                    <Link to="/cart" className="button button--cart">
+                    {location.pathname !== '/cart' &&  <Link to="/cart" className="button button--cart">
                         <span>{totalPrice} ₽</span>
                         <div className="button__delimiter"></div>
                         <svg
@@ -57,6 +57,8 @@ function Header() {
                         </svg>
                         <span>{totalPizzas}</span>
                     </Link>
+                    }
+
                 </div>
 
             </div>
