@@ -4,7 +4,6 @@ import Sort, {sortList} from "../components/Sort";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import PizzaBlock from "../components/PizzaBlock/pizzaBlock";
 import Pagination from "../components/Pagination";
-import {SearchContext} from "../App";
 
 import {useDispatch, useSelector} from "react-redux";
 import {selectFilter, setCategoryId, setFilters, setPageCount} from "../redux/slices/filterSlice";
