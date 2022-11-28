@@ -7,7 +7,7 @@ import Pagination from "../components/Pagination";
 
 import {useDispatch, useSelector} from "react-redux";
 import {selectFilter, setCategoryId, setFilters, setPageCount} from "../redux/slices/filterSlice";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import qs from "qs";
 import {fetchPizzas, selectPizzaData} from "../redux/slices/pizzaSlice";
 
