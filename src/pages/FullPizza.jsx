@@ -1,12 +1,13 @@
 import React from 'react';
 import PizzaBlock from "../components/PizzaBlock/pizzaBlock";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 
 const FullPizza = () => {
     const [pizza, setPizza] = React.useState()
     const { id } = useParams()
+    const navigate = useNavigate()
 
     React.useEffect(() => {
         async function fetchPizza () {
@@ -15,6 +16,7 @@ const FullPizza = () => {
                 setPizza(data)
             } catch (e) {
                 alert('Ошибка загрузки данных пиццы!')
+                navigate('/')
             }
         }
         fetchPizza()
